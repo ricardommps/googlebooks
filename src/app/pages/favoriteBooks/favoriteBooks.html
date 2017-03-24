@@ -1,0 +1,31 @@
+<div layout="vertical" layout-fill>
+
+  <md-content style="width: inherit;">
+    <header>
+      <acme-navbar></acme-navbar>
+    </header>
+    <div class="techs" layout="row" layout-align=" center" ng-if="main.myFavoritesBooks">
+      <md-list  style="padding: 25px;width: 50%;">
+        <md-item ng-repeat="item in main.myFavoritesBooks">
+          <md-item-content>
+            <div class="md-tile-left inset" hide-sm>
+              <a ng-href="{{item.volumeInfo.infoLink}}" target="_blank">
+                <img class="pull-right" ng-src="{{item.volumeInfo.imageLinks.smallThumbnail}}"
+                     style="width: 80px;"/>
+              </a>
+            </div>
+            <div class="md-tile-content">
+              <a ng-href="{{item.volumeInfo.infoLink}}" target="_blank">
+                <h3 ng-bind-html="item.volumeInfo.title"></h3>
+              </a>
+              <p>Autor: {{ item.volumeInfo.authors | formatFilter}}</p>
+              <p>Publicação: {{ item.volumeInfo.publisher }}, {{item.volumeInfo.publishedDate | dateFilter}}</p>
+            </div>
+          </md-item-content>
+          <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
+          <md-divider hide-gt-sm ng-if="!$last"></md-divider>
+        </md-item>
+      </md-list>
+  </md-content>
+
+</div>

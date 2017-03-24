@@ -1,0 +1,58 @@
+<div layout="vertical" layout-fill>
+
+  <md-content style="width: inherit;">
+    <header>
+      <acme-navbar></acme-navbar>
+    </header>
+
+    <section class="jumbotron">
+      <h2 style="padding: 20px;"> Google Books.</h2>
+      <div class="input-group input-group-lg col-md-6 col-md-offset-3">
+        <input type="text" class="form-control input-search" ng-model="main.searchBook.title">
+      </div>
+
+      <md-input-container>
+        <span>Idioma da pesquisa</span>
+        <md-select ng-model="main.searchBook.langRestrict">
+          <md-option ng-repeat="state in main.langRestrict" ng-value="state">
+            {{state}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+
+      <div class="input-group input-group-lg col-md-6 col-md-offset-3" >
+        <md-button class="md-raised md-primary" ng-click="main.search()">Pesquisar</md-button>
+      </div>
+
+    </section>
+
+    <div class="techs" layout="row" layout-align=" center" ng-if="main.bookResults.length > 0">
+      <md-list  style="padding: 25px;width: 50%;">
+        <md-item dir-paginate="item in main.bookResults | filter:main.searchTitle |orderBy:sortKey:reverse|itemsPerPage:5">
+          <md-item-content>
+            <div class="md-tile-left inset" hide-sm>
+              <a ng-href="{{item.volumeInfo.infoLink}}" target="_blank">
+                <img class="pull-right" ng-src="{{item.volumeInfo.imageLinks.smallThumbnail}}"
+                     style="width: 80px;"/>
+              </a>
+            </div>
+            <div class="md-tile-content">
+              <a ng-href="{{item.volumeInfo.infoLink}}" target="_blank">
+                <h3 ng-bind-html="item.volumeInfo.title | highlight:main.searchTitle"></h3>
+              </a>
+              <p>Autor: {{ item.volumeInfo.authors | formatFilter}}</p>
+              <p>Publicação: {{ item.volumeInfo.publisher }}, {{item.volumeInfo.publishedDate | dateFilter}}</p>
+              <md-checkbox ng-model="item.favorite" aria-label="Checkbox 1" ng-click="main.addFavorites(item)">
+                Adicionar aos favoritos
+              </md-checkbox>
+            </div>
+          </md-item-content>
+          <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
+          <md-divider hide-gt-sm ng-if="!$last"></md-divider>
+        </md-item>
+        <dir-pagination-controls max-size="5" boundary-links="true"></dir-pagination-controls>
+      </md-list>
+    </div>
+  </md-content>
+</div>
+
